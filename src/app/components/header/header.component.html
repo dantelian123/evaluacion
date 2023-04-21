@@ -6,16 +6,19 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+          <ul class="navbar-nav" >
+            <li class="nav-item" (click)="getIsLogin()" *ngIf="isLogin; else invitado">
+              <a class="nav-link" [routerLink]="['index']">Inicio</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Acerca de</a>
+            <ng-template #invitado>
+              <a class="nav-link"  [routerLink]="['']" (click)="getIsLogin()">Inicio</a>
+            </ng-template>
+            <li class="nav-item" *ngIf="isLogin; else logueado">
+              <a class="nav-link" [routerLink]="['login']" (click)="logout()">Log-out</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contacto</a>
-            </li>
+            <ng-template #logueado>
+              <a class="nav-link" (click)="logout()">Premiun</a>
+            </ng-template>
           </ul>
         </div>
       </div>

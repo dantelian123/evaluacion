@@ -1,0 +1,141 @@
+<div class="container">
+  <div class="row">
+    <div class="table-responsive col-md-9">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Autor</th>
+            <th>Titulos</th>
+            <th>Favorito</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let autor of authors?.authors
+                | slice : indiceInicial : indiceInicial + 10;
+              index as i
+            "
+          >
+            <td>{{ autor }}</td>
+            <td>
+              <a
+                class="btn btn-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModalToggle"
+                (click)="obtenerTitulo(autor); obtenerPoesia(autor)"
+                role="button"
+                >Ver Titulos</a
+              >
+            </td>
+            <td>
+              <button class="btn btn-primary" role="button">Agregar Fav</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3 mt-5">
+      <div class="card text-center bg-success text-white mb-3">
+        <div class="card-body">
+          <h3>Favoritos</h3>
+          <h4 class="display-4"></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav aria-label="Page navigation example" class="col-md-9">
+  <ul class="pagination d-flex justify-content-between">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous" (click)="prevPage()">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next" (click)="nextPage()">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div
+  class="modal fade"
+  id="exampleModalToggle"
+  aria-hidden="true"
+  aria-labelledby="exampleModalToggleLabel"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel">Poemas</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav justify-content-center" *ngFor="let titulo of titles">
+          <li class="nav-item">
+            <span>{{ titulo[1].title }}</span>
+            <p>
+              <button
+                (click)="obtenerPoesia(titulo[1].title)"
+                class="btn btn-primary"
+                data-bs-target="#exampleModalToggle2"
+                data-bs-toggle="modal"
+                data-bs-dismiss="modal"
+              >
+                Leer Fragmento
+              </button>
+            </p>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="exampleModalToggle2"
+  aria-hidden="true"
+  aria-labelledby="exampleModalToggleLabel2"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel2">Fragmento</h5>
+        <button
+          (click)="limpiar()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let fragmento of fragmento">
+          <p>{{ fragmento }}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-primary"
+          data-bs-target="#exampleModalToggle"
+          data-bs-toggle="modal"
+          data-bs-dismiss="modal"
+          (click)="limpiar()"
+        >
+          volver al listado
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
