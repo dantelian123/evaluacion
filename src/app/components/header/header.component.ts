@@ -8,18 +8,26 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  isLogin:boolean = false;
+  isLogin:boolean = true;
   constructor(private loginService: LoginService,private route:Router) { }
 
   ngOnInit() {
-    this.isLogin = this.loginService.getIsLoggin()
+
+  }
+  getLogin(login:boolean){
+    this.isLogin = login;
   }
   logout(){
     this.loginService.logout();
+    this.isLogin = false;
     this.route.navigate(["login"])
   }
   getIsLogin(){
-    this.isLogin = this.loginService.getIsLoggin()
-    return this.isLogin;
-  }
+    console.log(this.isLogin);
+    this.loginService.getIsLoggin().subscribe(
+      (data:boolean) => {this.getLogin(data)
+      console.log(data);
+      }
+    )
+     console.log(this.isLogin);}
 }

@@ -29,7 +29,13 @@
               >
             </td>
             <td>
-              <button class="btn btn-primary" role="button">Agregar Fav</button>
+              <button
+                class="btn btn-primary"
+                role="button"
+                (click)="agregarAutorFavorito(autor)"
+              >
+                Agregar Fav
+              </button>
             </td>
           </tr>
         </tbody>
@@ -39,7 +45,43 @@
       <div class="card text-center bg-success text-white mb-3">
         <div class="card-body">
           <h3>Favoritos</h3>
-          <h4 class="display-4"></h4>
+          <h4 class="display-4">
+            {{ calcularTotalFavoritos() }}
+          </h4>
+        </div>
+      </div>
+      <div class="card text-center bg-info text-white mb-3">
+        <div class="card-body">
+          <h4>Obras Favoritas</h4>
+          <h5 class="display-4">
+            {{ obrasFavoritas.length }}
+          </h5>
+          <div class="d-grid gap-2">
+            <button
+              type="button"
+              *ngIf="obrasFavoritas.length > 0"
+              class="btn btn-primary mb-1"
+              data-bs-toggle="modal"
+              data-bs-target="#ModalObrasFavoritas"
+            >
+              Ver obras favoritas
+            </button>
+          </div>
+          <h4>Autores Favoritos</h4>
+          <h5 class="display-4">
+            {{ autoresFavoritos.length }}
+          </h5>
+          <div class="d-grid gap-2">
+            <button
+              type="button"
+              *ngIf="autoresFavoritos.length > 0"
+              class="btn btn-primary mb-1"
+              data-bs-toggle="modal"
+              data-bs-target="#ModalAutoresFavoritos"
+            >
+              Ver Autores favoritos
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -80,9 +122,17 @@
         ></button>
       </div>
       <div class="modal-body">
-        <ul class="nav justify-content-center" *ngFor="let titulo of titles">
-          <li class="nav-item">
-            <span>{{ titulo[1].title }}</span>
+        <ul class="nav d-flex flex-column">
+          <li class="nav-item" *ngFor="let titulo of titles">
+            <span
+              >{{ titulo[1].title }}
+              <button
+                type="button"
+                (click)="agregarObraFavorito(titulo[1].title)"
+                class="btn btn-danger"
+              >
+                <i class="fa fa-heart"></i></button
+            ></span>
             <p>
               <button
                 (click)="obtenerPoesia(titulo[1].title)"
@@ -135,6 +185,66 @@
         >
           volver al listado
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="ModalObrasFavoritas"
+  aria-hidden="true"
+  aria-labelledby="exampleModalToggleLabel2"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel2">Favoritos</h5>
+        <button
+          (click)="limpiar()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let obras of obrasFavoritas">
+          <p>{{ obras }} <button (click)="eliminarObraFavorita(obras)" class="btn btn-danger m-2"><i class="fa fa-trash" aria-hidden="true"></i></button></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="ModalAutoresFavoritos"
+  aria-hidden="true"
+  aria-labelledby="exampleModalToggleLabel2"
+  tabindex="-1"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalToggleLabel2">Favoritos</h5>
+        <button
+          (click)="limpiar()"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let autores of autoresFavoritos">
+          <p>{{ autores }}<button (click)="eliminarAutorFavorito(autores)" class="btn btn-danger m-2"><i class="fa fa-trash" aria-hidden="true"></i></button></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+
       </div>
     </div>
   </div>

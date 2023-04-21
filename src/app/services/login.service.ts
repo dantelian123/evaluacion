@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -23,18 +24,27 @@ export class LoginService {
   ];
 
   validarUsuario(nombre: string, password: string): boolean {
-    for (let i = 0; i < this.registroUsuarios.length; i++) {
-      this.registroUsuarios[i].usuario
-      if (this.registroUsuarios[i].usuario === nombre && this.registroUsuarios[i].password === password) {
-        this.isLoggin = true;
+    if (localStorage.getItem("usuario") !== null) {
+      console.log("existe local");
+
+      this.isLoggin = true;
+    } else {
+      for (let i = 0; i < this.registroUsuarios.length; i++) {
+        this.registroUsuarios[i].usuario
+        if (this.registroUsuarios[i].usuario === nombre && this.registroUsuarios[i].password === password) {
+          this.isLoggin = true;
+          localStorage.setItem("usuario", JSON.stringify(this.registroUsuarios[i]))
+        }
       }
     }
     return this.isLoggin;
   }
-  logout(){
+  logout() {
     this.isLoggin = false;
   }
-  getIsLoggin(){
-    return this.isLoggin;
+  getIsLoggin():Observable<boolean> {
+    return new Observable<boolean>(observer=>{
+      observer.next(this.isLoggin)
+    });
   }
 }

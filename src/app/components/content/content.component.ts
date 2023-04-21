@@ -16,9 +16,9 @@ export class ContentComponent implements OnInit {
   titles: any;
   poetry: any;
   fragmento: string[] = [];
-  autoresFavoritos?:string[];
-  obrasFavoritas?:string[];
-  totalFavoritos?:number;
+  autoresFavoritos: string[] = [];
+  obrasFavoritas: string[] = [];
+  totalFavoritos: number = 0;
   indiceInicial = 0;
   respuestaCorrecta: boolean = false;
   constructor(private contentService: ContentService) { }
@@ -40,7 +40,41 @@ export class ContentComponent implements OnInit {
     this.authors = autores;
     console.log(this.authors);
   }
+  agregarAutorFavorito(autor: string) {
+    if (!this.autoresFavoritos.includes(autor)) {
+      this.autoresFavoritos.push(autor);
+      console.log(this.autoresFavoritos);
+    }
+    this.calcularTotalFavoritos();
+  }
+  agregarObraFavorito(obra: string) {
+    if (!this.obrasFavoritas.includes(obra)) {
+      this.obrasFavoritas.push(obra);
+      console.log(this.obrasFavoritas);
+    }
+    this.calcularTotalFavoritos();
+  }
+  eliminarAutorFavorito(autor: string) {
+    console.log("eliminando...");
 
+    if (this.autoresFavoritos.includes(autor)) {
+      console.log(this.autoresFavoritos.indexOf(autor))
+      this.autoresFavoritos.splice(this.autoresFavoritos.indexOf(autor), 1)
+      console.log(this.autoresFavoritos);
+    }
+    this.calcularTotalFavoritos();
+  }
+  eliminarObraFavorita(obra: string) {
+    console.log("eliminando...");
+    if (this.obrasFavoritas.includes(obra)) {
+      this.obrasFavoritas.splice(this.obrasFavoritas.indexOf(obra), 1)
+      console.log(this.obrasFavoritas);
+    }
+    this.calcularTotalFavoritos();
+  }
+  calcularTotalFavoritos() {
+    return this.obrasFavoritas.length + this.autoresFavoritos.length;
+  }
   asignarTitulo2(titulos: Object) {
     this.titles = Object.entries(titulos)
     console.log(this.titles);
@@ -96,7 +130,7 @@ export class ContentComponent implements OnInit {
   calcularFragmento(total: number): number {
     return Math.trunc(total * 0.25);
   }
-  limpiar(){
+  limpiar() {
     this.fragmento = []
   }
 }
